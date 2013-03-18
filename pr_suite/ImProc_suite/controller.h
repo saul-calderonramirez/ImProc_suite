@@ -2,17 +2,21 @@
 #define CONTROLLER_H
 #include "openimprolib_opencvimpl.h"
 #include "imageimpro_opencvimpl.h"
+#define DEF_IMAGE "baboon.jpg"
 
 class Controller{
 
-private:
-    //Choose the OpenImProLib implementation
+private:   
     OpenImProLib* ptrLib;
     ImageImPro* ptrImage;
 
 public:
+    enum Status{OK, FAIL};
     Controller();
-    QImage* runTest1();
+    ImageImPro* getImage();
+    Status loadDefaultImage();
+    Status applyFilterCanny();
+    Status applyFilterSobel();
     ~Controller();
 };
 

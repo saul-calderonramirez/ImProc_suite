@@ -1,8 +1,9 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),  ui(new Ui::MainWindow){
+    ptrScene = new QGraphicsScene;
     ptrController = new Controller();
     ui->setupUi(this);
 
@@ -15,19 +16,41 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_btnCannyFilter_clicked()
-{
-
-
-
-
+void MainWindow::showImage(QImage* qImage){
+     QPixmap pixMap = QPixmap::fromImage(*qImage);
+     this->ptrScene->addPixmap(pixMap);
+     ui->imgDisplay->setScene(this->ptrScene);
+     ui->imgDisplay->show();
 }
+
+void MainWindow::on_btnCannyFilter_clicked(){
+    Controller::Status status = ptrController->applyFilterCanny();
+    if(status == Controller::OK){
+        QImage* qImage = this->ptrController->getImage()->getQImage();
+        showImage(qImage);
+        delete qImage;
+    }
+}
+
+
 
 void MainWindow::on_btnLoadDefImage_clicked(){
-    QGraphicsScene *scene = new QGraphicsScene;
-    QImage* image = ptrController->runTest1();
-    QPixmap pixMap = QPixmap::fromImage(*image);
-    scene->addPixmap(pixMap);
-    ui->imgDisplay->setScene(scene);
-    ui->imgDisplay->show();
+    Controller::Status status = ptrController->loadDefaultImage();
+    if(status == Controller::OK){
+        QImage* qImage = this->ptrController->getImage()->getQImage();
+        showImage(qImage);
+        //delete qImage;
+    }
 }
+
+void MainWindow::on_btnSobelFilter_clicked(){
+    Controller::Status status = ptrController->applyFilterSobel();
+
+    if(status == Controller::OK){
+       /* QImage* qImage = this->ptrController->getImage()->getQImage();
+        showImage(qImage);
+        delete qImage;*/
+    }
+}
+
+
