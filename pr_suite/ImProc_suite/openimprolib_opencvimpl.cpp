@@ -1,6 +1,5 @@
 #include "openimprolib_opencvimpl.h"
-#include <iostream>
-using namespace std;
+
 
 OpenImProLib_OpenCvImpl::OpenImProLib_OpenCvImpl(){
 
@@ -13,6 +12,46 @@ void OpenImProLib_OpenCvImpl::filterCanny(ImageImPro* ptrInput, ImageImPro* ptrO
     cvCanny(ptrInputCv, ptrOutputCv, limInf, limSup, apertureSize);
 }
 
+int OpenImProLib_OpenCvImpl::imProThresh2CvThresh(ThresholdType thresholdType){
+    int cvThreshType = -1;
+    switch(thresholdType){
+           case BINARY_THRESH:
+                cvThreshType = CV_THRESH_BINARY;
+           break;
+           case BINARY_INV_THRESH:
+                cvThreshType = CV_THRESH_BINARY_INV;
+           break;
+           case TRUNC_THRESH:
+                cvThreshType = CV_THRESH_TRUNC;
+           break;
+           case TO_ZERO_THRESH:
+                cvThreshType = CV_THRESH_TOZERO;
+           break;
+           case TO_ZERO_INV_THRESH:
+                cvThreshType = CV_THRESH_TOZERO_INV;
+           break;
+    }
+    return cvThreshType;
+
+}
+
+void OpenImProLib_OpenCvImpl::threshold(ImageImPro* ptrInput, ImageImPro* ptrOutput, double threshold, double maxValue, ThresholdType typeThresh){
+     IplImage* ptrCvInput = ptrInput->getOpenCvImage();
+     IplImage* ptrCvOutput = ptrOutput->getOpenCvImage();//cvCreateImage(cvGetSize(ptrCvInput), IPL_DEPTH_8U, 1);
+     int cvThresholdType = imProThresh2CvThresh(typeThresh);
+     if(ptrInput->getChannels() != 1){
+         IplImage* ptrCvInputGray = cvCreateImage(cvSize(ptrCvInput->width,ptrCvInput->height),IPL_DEPTH_8U,1);
+         cvCvtColor(ptrCvInput,ptrCvInputGray, CV_RGB2GRAY);
+         cvThreshold(ptrCvInputGray, ptrCvOutput, threshold, maxValue, cvThresholdType);
+         cvReleaseImage(&ptrCvInputGray);
+     }
+     else{
+        cvThreshold(ptrCvInput, ptrCvOutput, threshold, maxValue, cvThresholdType);
+     }
+     ptrOutput = new ImageImPro_OpenCvImpl(ptrCvOutput);
+
+}
+
  ImageImPro* OpenImProLib_OpenCvImpl::convert2GrayScale(ImageImPro* ptrImage){
      IplImage* ptrCvImage = ptrImage->getOpenCvImage();
      IplImage *ptrCvImGray = cvCreateImage(cvGetSize(ptrCvImage),IPL_DEPTH_8U,1);
@@ -22,23 +61,24 @@ void OpenImProLib_OpenCvImpl::filterCanny(ImageImPro* ptrInput, ImageImPro* ptrO
  }
 
 void OpenImProLib_OpenCvImpl::filterSobel(ImageImPro* ptrInput, ImageImPro* ptrOutput, int xOrder, int yOrder, int apertureSize){
-    /*ImageImPro* ptrImGray = convert2GrayScale(ptrInput);
-    IplImage* ptrOutputCv = ptrOutput->getOpenCvImage();
-    cvSobel(ptrImGray->getOpenCvImage(), ptrOutputCv, xOrder, yOrder, apertureSize);
-    Sobel( ptrImGray->getOpenCvImage(), grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT );
-    cout << "va aqui" << endl;*/
-
-    IplImage* src = ptrInput->getOpenCvImage();
-    IplImage* sobel = cvCreateImage(cvSize(src->width,src->height),IPL_DEPTH_8U,1);
-    IplImage* dst = ptrOutput->getOpenCvImage();
-    IplImage* finalResult = cvCreateImage(cvSize(src->width,src->height),IPL_DEPTH_8U,1);
-
-    cvCvtColor(src,sobel, CV_RGB2GRAY);
-    cvSobel(sobel,dst, xOrder, yOrder, apertureSize);
-    cvConvertScale(dst, finalResult, 1, 0);
-   // delete ptrOutput;
-    //ptrOutput = new ImageImPro_OpenCvImpl(finalResult);
-
+    IplImage* ptrCvInput = ptrInput->getOpenCvImage();
+    //buffer for sobel result needing more bits per pixel for the result, then, rescaling is necesary to get it back to 8 bits per pixel
+    IplImage* ptrCvTemp = cvCreateImage(cvGetSize(ptrCvInput),IPL_DEPTH_32F,1);
+    IplImage* ptrCvOutput = ptrOutput->getOpenCvImage();
+    if(ptrInput->getChannels() != 1){
+        IplImage* ptrCvInputGray = cvCreateImage(cvSize(ptrCvInput->width,ptrCvInput->height),IPL_DEPTH_8U,1);
+        cvCvtColor(ptrCvInput,ptrCvInputGray, CV_RGB2GRAY);
+        cvSobel(ptrCvInputGray,ptrCvTemp, xOrder, yOrder, apertureSize);
+        cvReleaseImage(&ptrCvInputGray);
+    }
+    else{
+        cvSobel(ptrCvInput,ptrCvTemp, xOrder, yOrder, apertureSize);
+    }
+    cvConvertScale(ptrCvTemp, ptrCvOutput, 1, 0);
+    /*
     cvNamedWindow("sobel");
-    cvShowImage("sobel", finalResult);
+    cvShowImage("sobel", ptrCvTemp);
+    */
+    cvReleaseImage(&ptrCvTemp);
+
 }

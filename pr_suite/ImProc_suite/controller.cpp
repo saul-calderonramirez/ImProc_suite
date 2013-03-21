@@ -5,41 +5,49 @@ Controller::Controller(){
      this->ptrLib = new OpenImProLib_OpenCvImpl();
 }
 
-Controller::Status Controller::loadDefaultImage(){
-    Controller::Status status = OK;
+void Controller::loadDefaultImage()throw (ControllerException){
     char* name = (char*)DEF_IMAGE;
     this->ptrImage = new ImageImPro_OpenCvImpl(name);
     if(this->ptrImage == NULL){
-        status = FAIL;
+        throw ControllerException("Invalid image name");
     }
 
-    return status;
 }
 
- Controller::Status Controller::applyFilterCanny(){
-    Controller::Status status = FAIL;
+void Controller::applyFilterCanny()throw (ControllerException){
     if(this->ptrImage != NULL){
         ImageImPro* ptrImageCanny = new ImageImPro_OpenCvImpl(this->ptrImage->getSize(), ImageImPro::BIT_8_U, 1);
         this->ptrLib->filterCanny(ptrImage, ptrImageCanny, 10, 500, 3);
         delete this->ptrImage;
-        ptrImage = ptrImageCanny;
-        status = OK;
+        ptrImage = ptrImageCanny;    
     }
-    return status;
+    else{
+         throw ControllerException("No image loaded");
+    }
  }
 
- Controller::Status Controller::applyFilterSobel(){
-     Controller::Status status = FAIL;     
-     if(this->ptrImage != NULL){
-         //CONVERT TO GRAYSCALE
-         //RESULT TO result can be converted back to 8-bit using cvConvertScale or cvConvertScaleAbs functions
-         ImageImPro* ptrImageSobel = new ImageImPro_OpenCvImpl(this->ptrImage->getSize(), ImageImPro::BIT_32_F, 1);
-         this->ptrLib->filterSobel(ptrImage, ptrImageSobel, 1, 1, 3);
+void Controller::applyFilterSobel()throw (ControllerException){
+     if(this->ptrImage != NULL){         
+         ImageImPro* ptrImageSobel = new ImageImPro_OpenCvImpl(this->ptrImage->getSize(), ImageImPro::BIT_8_U, 1);
+         this->ptrLib->filterSobel(ptrImage, ptrImageSobel, 1, 1, 3);         
          delete this->ptrImage;
          ptrImage = ptrImageSobel;
-         status = OK;
      }
-     return status;
+     else{
+         throw ControllerException("No image loaded");
+     }
+ }
+
+void Controller::applyBinaryThreshold()throw (ControllerException){
+     if(this->ptrImage != NULL){
+         ImageImPro* ptrImageBin = new ImageImPro_OpenCvImpl(this->ptrImage->getSize(), ImageImPro::BIT_8_U, 1);
+         this->ptrLib->threshold(this->ptrImage, ptrImageBin, 100, 255, OpenImProLib::BINARY_THRESH);
+         delete this->ptrImage;
+         ptrImage = ptrImageBin;
+     }
+     else{
+         throw ControllerException("No image loaded");
+     }
  }
 
  ImageImPro* Controller::getImage(){

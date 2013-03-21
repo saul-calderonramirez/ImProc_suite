@@ -1,19 +1,12 @@
 #include "mainwindow.h"
-
+#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),  ui(new Ui::MainWindow){
+    QMainWindow(parent),
+    ui(new Ui::MainWindow){
     ptrScene = new QGraphicsScene;
-    ptrController = new Controller();
+        ptrController = new Controller();
     ui->setupUi(this);
-
-
-}
-
-MainWindow::~MainWindow()
-{
-    delete this->ptrController;
-    delete ui;
 }
 
 void MainWindow::showImage(QImage* qImage){
@@ -23,34 +16,52 @@ void MainWindow::showImage(QImage* qImage){
      ui->imgDisplay->show();
 }
 
-void MainWindow::on_btnCannyFilter_clicked(){
-    Controller::Status status = ptrController->applyFilterCanny();
-    if(status == Controller::OK){
-        QImage* qImage = this->ptrController->getImage()->getQImage();
-        showImage(qImage);
-        delete qImage;
-    }
+MainWindow::~MainWindow(){
+    delete ui;
+    delete this->ptrController;
 }
 
-
-
-void MainWindow::on_btnLoadDefImage_clicked(){
-    Controller::Status status = ptrController->loadDefaultImage();
-    if(status == Controller::OK){
+void MainWindow::on_btnCannyFilter_clicked(){
+    try{
+        ptrController->applyFilterCanny();
         QImage* qImage = this->ptrController->getImage()->getQImage();
         showImage(qImage);
-        //delete qImage;
+    }
+    catch(Controller::ControllerException contExc){
+        cout << contExc.what() << endl;
     }
 }
 
 void MainWindow::on_btnSobelFilter_clicked(){
-    Controller::Status status = ptrController->applyFilterSobel();
-
-    if(status == Controller::OK){
-       /* QImage* qImage = this->ptrController->getImage()->getQImage();
+    try{
+        ptrController->applyFilterSobel();
+        QImage* qImage = this->ptrController->getImage()->getQImage();
         showImage(qImage);
-        delete qImage;*/
+    }
+    catch(Controller::ControllerException contExc){
+        cout << contExc.what() << endl;
     }
 }
 
+void MainWindow::on_btnUmbBin_clicked(){
+    try{
+        ptrController->applyBinaryThreshold();
+        QImage* qImage = this->ptrController->getImage()->getQImage();
+        showImage(qImage);
+    }
+    catch(Controller::ControllerException contExc){
+        cout << contExc.what() << endl;
+    }
+}
 
+void MainWindow::on_btnLoadDefImage_clicked(){
+    try{
+        ptrController->loadDefaultImage();
+        QImage* qImage = this->ptrController->getImage()->getQImage();
+        showImage(qImage);
+    }
+    catch(Controller::ControllerException contExc){
+        cout << contExc.what() << endl;
+    }
+
+}

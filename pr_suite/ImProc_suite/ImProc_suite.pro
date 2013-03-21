@@ -13,21 +13,23 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     imageimpro.cpp \
     openimprolib.cpp \
     openimprolib_opencvimpl.cpp \
     imageimpro_opencvimpl.cpp \
-    controller.cpp
+    controller.cpp \
+    mainwindow.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     imageimpro.h \
     openimprolib.h \
     openimprolib_opencvimpl.h \
     imageimpro_opencvimpl.h \
-    controller.h
+    controller.h \
+    mainwindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += \
+    mainwindow.ui
 #We add the packages of open Cv to the compiler and the linker
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv

@@ -25,10 +25,7 @@ ImageImPro::ImageImProDepth ImageImPro_OpenCvImpl::getDepth(){
         if(depthCv == IPL_DEPTH_32F){
             depthImPro = ImageImPro::BIT_32_F;
         }
-    }
-    else{
-        depthImPro = INVALID;
-    }
+    }   
     return depthImPro;
 
 }

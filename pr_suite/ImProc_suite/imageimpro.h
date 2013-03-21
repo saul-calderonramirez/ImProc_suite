@@ -16,7 +16,7 @@ ImSize;
 
 class ImageImPro{
     public:
-        enum ImageImProDepth { BIT_8_U, BIT_16_S, BIT_32_F, INVALID };
+        enum ImageImProDepth { BIT_8_U, BIT_16_S, BIT_32_F };
         ImageImPro();
         virtual void loadImage(char* ptrName)=0;
         virtual void createImage(ImSize size, ImageImProDepth depth, int channels)=0;

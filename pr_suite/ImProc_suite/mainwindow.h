@@ -1,9 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
-#include <QMainWindow>
 #include "controller.h"
-#include "ui_mainwindow.h"
+#include <QMainWindow>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QGraphicsItem>
+
 namespace Ui {
 class MainWindow;
 }
@@ -11,18 +13,20 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    Controller* ptrController;
+    
 public:
-    QGraphicsScene* ptrScene;
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void showImage(QImage* qImage);
-    
+    Controller* ptrController;
+    QGraphicsScene* ptrScene;
 private slots:
     void on_btnCannyFilter_clicked();
-    void on_btnLoadDefImage_clicked();
-
+    void showImage(QImage* qImage);
     void on_btnSobelFilter_clicked();
+
+    void on_btnUmbBin_clicked();
+
+    void on_btnLoadDefImage_clicked();
 
 private:
     Ui::MainWindow *ui;
