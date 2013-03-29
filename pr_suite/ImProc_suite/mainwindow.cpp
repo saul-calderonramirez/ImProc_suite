@@ -24,8 +24,11 @@ MainWindow::~MainWindow(){
 
 void MainWindow::on_mnOpenImage_clicked(){
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"", tr("Files (*.*)"));
-    char* ptrName = (char*)fileName.toStdString().c_str();
-    cout << ptrName << endl;
+    string nameStd = fileName.toStdString();
+    char *ptrName = new char[nameStd.size() + 1];
+    ptrName[nameStd.size()] = 0;
+    memcpy(ptrName, nameStd.c_str(), nameStd.size());
+    cout << "Image to load: " << ptrName << endl;
     ptrController->loadImage(ptrName);
     QImage* qImage = this->ptrController->getImage()->getQImage();
     showImage(qImage);
