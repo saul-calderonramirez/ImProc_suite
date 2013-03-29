@@ -35,7 +35,7 @@ int OpenImProLib_OpenCvImpl::imProThresh2CvThresh(ThresholdType thresholdType){
 
 }
 
-void OpenImProLib_OpenCvImpl::threshold(ImageImPro* ptrInput, ImageImPro* ptrOutput, double threshold, double maxValue, ThresholdType typeThresh){
+void OpenImProLib_OpenCvImpl::applyThreshold(ImageImPro* ptrInput, ImageImPro* ptrOutput, double threshold, double maxValue, ThresholdType typeThresh){
      IplImage* ptrCvInput = ptrInput->getOpenCvImage();
      IplImage* ptrCvOutput = ptrOutput->getOpenCvImage();//cvCreateImage(cvGetSize(ptrCvInput), IPL_DEPTH_8U, 1);
      int cvThresholdType = imProThresh2CvThresh(typeThresh);

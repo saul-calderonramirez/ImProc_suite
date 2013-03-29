@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Thu Mar 21 15:21:19 2013
+** Created: Fri Mar 29 12:45:07 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,6 +36,7 @@ static const uint qt_meta_data_MainWindow[] = {
       66,   11,   11,   11, 0x08,
       94,   11,   11,   11, 0x08,
      117,   11,   11,   11, 0x08,
+     142,   11,   11,   11, 0x08,
 
        0        // eod
 };
@@ -44,7 +45,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0on_btnCannyFilter_clicked()\0"
     "qImage\0showImage(QImage*)\0"
     "on_btnSobelFilter_clicked()\0"
-    "on_btnUmbBin_clicked()\0"
+    "on_btnUmbBin_clicked()\0on_mnOpenImage_clicked()\0"
     "on_btnLoadDefImage_clicked()\0"
 };
 
@@ -58,7 +59,8 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 1: _t->showImage((*reinterpret_cast< QImage*(*)>(_a[1]))); break;
         case 2: _t->on_btnSobelFilter_clicked(); break;
         case 3: _t->on_btnUmbBin_clicked(); break;
-        case 4: _t->on_btnLoadDefImage_clicked(); break;
+        case 4: _t->on_mnOpenImage_clicked(); break;
+        case 5: _t->on_btnLoadDefImage_clicked(); break;
         default: ;
         }
     }
@@ -96,9 +98,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 6;
     }
     return _id;
 }

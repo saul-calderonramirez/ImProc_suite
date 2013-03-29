@@ -141,8 +141,25 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuArchivo">
+    <property name="title">
+     <string>Archivo</string>
+    </property>
+    <addaction name="actionOtro_Abrir"/>
+   </widget>
+   <addaction name="menuArchivo"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionAbrir_Imagen">
+   <property name="text">
+    <string>Abrir Imagen</string>
+   </property>
+  </action>
+  <action name="actionOtro_Abrir">
+   <property name="text">
+    <string>Abrir Imagen</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

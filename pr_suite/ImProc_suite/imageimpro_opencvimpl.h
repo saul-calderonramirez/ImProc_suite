@@ -1,7 +1,7 @@
 #ifndef IMAGEIMPRO_OPENCVIMPL_H
 #define IMAGEIMPRO_OPENCVIMPL_H
 #include "imageimpro.h"
-
+#include "includes.h"
 
 class ImageImPro_OpenCvImpl : public ImageImPro {
 

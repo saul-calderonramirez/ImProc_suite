@@ -1,9 +1,6 @@
 #ifndef IMAGE_IMPRO_H
 #define IMAGE_IMPRO_H
-#include "highgui.h"
-#include "cv.h"
-#include <QMainWindow>
-#include <iostream>
+#include "includes.h"
 using namespace::std;
 
 

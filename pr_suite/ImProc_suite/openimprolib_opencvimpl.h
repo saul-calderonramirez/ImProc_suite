@@ -1,7 +1,8 @@
 #ifndef OPENIPLIB_OPENCVIMPL_H
 #define OPENIPLIB_OPENCVIMPL_H
 #include "openimprolib.h"
-#include <iostream>
+#include "includes.h"
+
 using namespace std;
 class OpenImProLib_OpenCvImpl : public OpenImProLib
 {
@@ -12,7 +13,7 @@ public:
     OpenImProLib_OpenCvImpl();
     void filterCanny(ImageImPro* input, ImageImPro* output, double limInf, double limSup, int apertureSize);
     void filterSobel(ImageImPro* input, ImageImPro* output, int xOrder, int yOrder, int apertureSize);
-    void threshold(ImageImPro* input, ImageImPro* output, double threshold, double maxValue, ThresholdType typeThresh);
+    void applyThreshold(ImageImPro* input, ImageImPro* output, double threshold, double maxValue, ThresholdType typeThresh);
     ImageImPro* convert2GrayScale(ImageImPro* ptrImage);
     ~OpenImProLib_OpenCvImpl(){}
 };

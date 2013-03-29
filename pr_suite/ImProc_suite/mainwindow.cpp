@@ -5,8 +5,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow){
     ptrScene = new QGraphicsScene;
-        ptrController = new Controller();
-    ui->setupUi(this);
+    ptrController = new Controller();
+    ui->setupUi(this);    
+    connect(ui->actionOtro_Abrir, SIGNAL(triggered()), this, SLOT(on_mnOpenImage_clicked()));
 }
 
 void MainWindow::showImage(QImage* qImage){
@@ -19,6 +20,15 @@ void MainWindow::showImage(QImage* qImage){
 MainWindow::~MainWindow(){
     delete ui;
     delete this->ptrController;
+}
+
+void MainWindow::on_mnOpenImage_clicked(){
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"", tr("Files (*.*)"));
+    char* ptrName = (char*)fileName.toStdString().c_str();
+    cout << ptrName << endl;
+    ptrController->loadImage(ptrName);
+    QImage* qImage = this->ptrController->getImage()->getQImage();
+    showImage(qImage);
 }
 
 void MainWindow::on_btnCannyFilter_clicked(){
@@ -56,7 +66,7 @@ void MainWindow::on_btnUmbBin_clicked(){
 
 void MainWindow::on_btnLoadDefImage_clicked(){
     try{
-        ptrController->loadDefaultImage();
+        ptrController->loadImage((char*)DEF_IMAGE);
         QImage* qImage = this->ptrController->getImage()->getQImage();
         showImage(qImage);
     }

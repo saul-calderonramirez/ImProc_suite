@@ -98,6 +98,7 @@ QImage* ImageImPro_OpenCvImpl::getQImage(){
     //RGB 24 bit (8-8-8) image case
     if(this->ptrImage->nChannels == 3 && this->ptrImage->depth == IPL_DEPTH_8U){      
         ptrImg = new QImage(qImageBuffer, width, height, QImage::Format_RGB888);
+        //OpenCv image is GRB, needs to be swapped
         ptrImg = new QImage(ptrImg->rgbSwapped());
     }
     //8 bit, one channel case

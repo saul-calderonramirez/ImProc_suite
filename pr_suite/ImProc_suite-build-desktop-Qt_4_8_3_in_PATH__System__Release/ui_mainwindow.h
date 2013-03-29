@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Mar 21 15:21:14 2013
+** Created: Fri Mar 29 10:54:19 2013
 **      by: Qt User Interface Compiler version 4.8.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -18,6 +18,7 @@
 #include <QtGui/QGroupBox>
 #include <QtGui/QHeaderView>
 #include <QtGui/QMainWindow>
+#include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
 #include <QtGui/QStatusBar>
 #include <QtGui/QToolButton>
@@ -28,6 +29,8 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionAbrir_Imagen;
+    QAction *actionOtro_Abrir;
     QWidget *centralwidget;
     QGraphicsView *imgDisplay;
     QGroupBox *groupBox_2;
@@ -39,6 +42,7 @@ public:
     QToolButton *btnCannyFilter;
     QToolButton *btnSobelFilter;
     QMenuBar *menubar;
+    QMenu *menuArchivo;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -46,6 +50,10 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(800, 600);
+        actionAbrir_Imagen = new QAction(MainWindow);
+        actionAbrir_Imagen->setObjectName(QString::fromUtf8("actionAbrir_Imagen"));
+        actionOtro_Abrir = new QAction(MainWindow);
+        actionOtro_Abrir->setObjectName(QString::fromUtf8("actionOtro_Abrir"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         imgDisplay = new QGraphicsView(centralwidget);
@@ -82,10 +90,15 @@ public:
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
         menubar->setGeometry(QRect(0, 0, 800, 25));
+        menuArchivo = new QMenu(menubar);
+        menuArchivo->setObjectName(QString::fromUtf8("menuArchivo"));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
+
+        menubar->addAction(menuArchivo->menuAction());
+        menuArchivo->addAction(actionOtro_Abrir);
 
         retranslateUi(MainWindow);
 
@@ -95,6 +108,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
+        actionAbrir_Imagen->setText(QApplication::translate("MainWindow", "Abrir Imagen", 0, QApplication::UnicodeUTF8));
+        actionOtro_Abrir->setText(QApplication::translate("MainWindow", "Abrir Imagen", 0, QApplication::UnicodeUTF8));
         groupBox_2->setTitle(QApplication::translate("MainWindow", "Umbralizacion", 0, QApplication::UnicodeUTF8));
         btnUmbBin->setText(QApplication::translate("MainWindow", "Binaria", 0, QApplication::UnicodeUTF8));
         btnSegLocal->setText(QApplication::translate("MainWindow", "Local", 0, QApplication::UnicodeUTF8));
@@ -103,6 +118,7 @@ public:
         groupBox->setTitle(QApplication::translate("MainWindow", "Filtros", 0, QApplication::UnicodeUTF8));
         btnCannyFilter->setText(QApplication::translate("MainWindow", "Filtro de Canny", 0, QApplication::UnicodeUTF8));
         btnSobelFilter->setText(QApplication::translate("MainWindow", "Filtro de Sobel", 0, QApplication::UnicodeUTF8));
+        menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

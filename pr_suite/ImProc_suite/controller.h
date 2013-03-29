@@ -1,9 +1,9 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
-#include <exception>
+#include "includes.h"
 #include "openimprolib_opencvimpl.h"
 #include "imageimpro_opencvimpl.h"
-#define DEF_IMAGE "baboon.jpg"
+#define DEF_IMAGE "left02.jpg"
 
 class Controller{
 
@@ -12,8 +12,7 @@ private:
     ImageImPro* ptrImage;
 
 public:   
-    class ControllerException: public exception
-    {
+    class ControllerException: public exception{
       public:
       const char* ptrMessage;
       ControllerException(){}
@@ -26,7 +25,7 @@ public:
     }controllerException;
     Controller();
     ImageImPro* getImage();
-    void loadDefaultImage()throw (ControllerException);
+    void loadImage(char* ptrName)throw (ControllerException);
     void applyFilterCanny()throw (ControllerException);
     void applyBinaryThreshold()throw (ControllerException);
     void applyFilterSobel()throw (ControllerException);

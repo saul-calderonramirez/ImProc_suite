@@ -26,7 +26,8 @@ HEADERS  += \
     openimprolib_opencvimpl.h \
     imageimpro_opencvimpl.h \
     controller.h \
-    mainwindow.h
+    mainwindow.h \
+    includes.h
 
 FORMS    += \
     mainwindow.ui

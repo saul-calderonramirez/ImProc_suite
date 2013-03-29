@@ -5,9 +5,8 @@ Controller::Controller(){
      this->ptrLib = new OpenImProLib_OpenCvImpl();
 }
 
-void Controller::loadDefaultImage()throw (ControllerException){
-    char* name = (char*)DEF_IMAGE;
-    this->ptrImage = new ImageImPro_OpenCvImpl(name);
+void Controller::loadImage(char* ptrName)throw (ControllerException){
+    this->ptrImage = new ImageImPro_OpenCvImpl(ptrName);
     if(this->ptrImage == NULL){
         throw ControllerException("Invalid image name");
     }
@@ -41,7 +40,7 @@ void Controller::applyFilterSobel()throw (ControllerException){
 void Controller::applyBinaryThreshold()throw (ControllerException){
      if(this->ptrImage != NULL){
          ImageImPro* ptrImageBin = new ImageImPro_OpenCvImpl(this->ptrImage->getSize(), ImageImPro::BIT_8_U, 1);
-         this->ptrLib->threshold(this->ptrImage, ptrImageBin, 100, 255, OpenImProLib::BINARY_THRESH);
+         this->ptrLib->applyThreshold(this->ptrImage, ptrImageBin, 100, 255, OpenImProLib::BINARY_THRESH);
          delete this->ptrImage;
          ptrImage = ptrImageBin;
      }

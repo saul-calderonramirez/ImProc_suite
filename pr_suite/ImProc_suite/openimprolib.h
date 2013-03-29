@@ -1,8 +1,8 @@
 #ifndef OPENPRISL_H
 #define OPENPRISL_H
-#include "highgui.h"
-#include "cv.h"
+
 #include "imageimpro_opencvimpl.h"
+#include "includes.h"
 /*
 Interface of the image processing library
 */
@@ -53,7 +53,7 @@ public:
     *TO_ZERO_INV_THRESH: Output_i = (Input_i > Thresh) 0:Input_i
     *TO_ZERO_INV_THRESH: Output_i = (Input_i > Thresh) Input_i:0
     */
-    virtual void threshold(ImageImPro* input, ImageImPro* output, double threshold, double maxValue, ThresholdType typeThresh) = 0;
+    virtual void applyThreshold(ImageImPro* input, ImageImPro* output, double threshold, double maxValue, ThresholdType typeThresh) = 0;
 
 
     virtual ImageImPro* convert2GrayScale(ImageImPro* ptrImage) = 0;

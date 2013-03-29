@@ -1,10 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "controller.h"
-#include <QMainWindow>
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QGraphicsItem>
+#include "includes.h"
 
 namespace Ui {
 class MainWindow;
@@ -25,7 +22,7 @@ private slots:
     void on_btnSobelFilter_clicked();
 
     void on_btnUmbBin_clicked();
-
+    void on_mnOpenImage_clicked();
     void on_btnLoadDefImage_clicked();
 
 private:
