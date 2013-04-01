@@ -15,20 +15,28 @@ void Controller::loadImage(char* ptrName)throw (ControllerException){
 
 void Controller::applyFilterCanny()throw (ControllerException){
     if(this->ptrImage != NULL){
-        ImageImPro* ptrImageCanny = new ImageImPro_OpenCvImpl(this->ptrImage->getSize(), ImageImPro::BIT_8_U, 1);
-        this->ptrLib->filterCanny(ptrImage, ptrImageCanny, 10, 500, 3);
+        ImageImPro* ptrImageCanny = this->ptrLib->filterCanny(ptrImage, 10, 500, 3);
         delete this->ptrImage;
-        ptrImage = ptrImageCanny;    
+        ptrImage = ptrImageCanny;
     }
     else{
          throw ControllerException("No image loaded");
     }
  }
 
+ void Controller::findCountour()throw (ControllerException){
+     if(this->ptrImage != NULL){
+         ImageImPro* ptrImageGray = this->ptrLib->convert2GrayScale(this->ptrImage);
+     }
+     else{
+          throw ControllerException("No image loaded");
+     }
+ }
+
 void Controller::applyFilterSobel()throw (ControllerException){
      if(this->ptrImage != NULL){         
-         ImageImPro* ptrImageSobel = new ImageImPro_OpenCvImpl(this->ptrImage->getSize(), ImageImPro::BIT_8_U, 1);
-         this->ptrLib->filterSobel(ptrImage, ptrImageSobel, 1, 1, 3);         
+
+         ImageImPro* ptrImageSobel = this->ptrLib->filterSobel(ptrImage, 1, 1, 3);
          delete this->ptrImage;
          ptrImage = ptrImageSobel;
      }
@@ -39,8 +47,8 @@ void Controller::applyFilterSobel()throw (ControllerException){
 
 void Controller::applyBinaryThreshold()throw (ControllerException){
      if(this->ptrImage != NULL){
-         ImageImPro* ptrImageBin = new ImageImPro_OpenCvImpl(this->ptrImage->getSize(), ImageImPro::BIT_8_U, 1);
-         this->ptrLib->applyThreshold(this->ptrImage, ptrImageBin, 100, 255, OpenImProLib::BINARY_THRESH);
+
+         ImageImPro* ptrImageBin = this->ptrLib->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
          delete this->ptrImage;
          ptrImage = ptrImageBin;
      }
@@ -55,8 +63,10 @@ void Controller::applyBinaryThreshold()throw (ControllerException){
 
 
 Controller::~Controller(){
-    delete this->ptrImage;
-    delete this->ptrLib;
+    if(this->ptrImage != NULL)
+        delete this->ptrImage;
+    if(this->ptrLib != NULL)
+        delete this->ptrLib;
 }
 
 

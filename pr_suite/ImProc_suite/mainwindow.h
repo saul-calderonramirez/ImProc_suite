@@ -25,6 +25,8 @@ private slots:
     void on_mnOpenImage_clicked();
     void on_btnLoadDefImage_clicked();
 
+    void on_btnContour_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

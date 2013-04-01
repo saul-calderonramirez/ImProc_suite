@@ -11,9 +11,9 @@ private:
 
 public:
     OpenImProLib_OpenCvImpl();
-    void filterCanny(ImageImPro* input, ImageImPro* output, double limInf, double limSup, int apertureSize);
-    void filterSobel(ImageImPro* input, ImageImPro* output, int xOrder, int yOrder, int apertureSize);
-    void applyThreshold(ImageImPro* input, ImageImPro* output, double threshold, double maxValue, ThresholdType typeThresh);
+    ImageImPro* filterCanny(ImageImPro* input, double limInf, double limSup, int apertureSize);
+    ImageImPro* filterSobel(ImageImPro* input, int xOrder, int yOrder, int apertureSize);
+    ImageImPro* applyThreshold(ImageImPro* input, double threshold, double maxValue, ThresholdType typeThresh);
     ImageImPro* convert2GrayScale(ImageImPro* ptrImage);
     ~OpenImProLib_OpenCvImpl(){}
 };

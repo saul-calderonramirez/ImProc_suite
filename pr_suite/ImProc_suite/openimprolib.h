@@ -26,7 +26,7 @@ public:
     *A smaller window is more sensitive to noise
     *@return Binary Image with the edges white and the rest of the image black
     */
-    virtual void filterCanny(ImageImPro* input, ImageImPro* output, double limInf, double limSup, int apertureSize) = 0;
+    virtual ImageImPro* filterCanny(ImageImPro* input, double limInf, double limSup, int apertureSize) = 0;
     /*
     *The sobel filter is an approximation to a derivative, it can apply first or second order in both coordinates in an image
     *First, the sobel operator applies a gaussian filter, in order to smooth the image
@@ -37,7 +37,7 @@ public:
     *@param yOrder, the derivative order for the Y axis
     *@param apertureSize, size of the filter window, if the size is 3, the scharr filter is used, less sensitive to noise
     */
-    virtual void filterSobel(ImageImPro* input, ImageImPro* output, int xOrder, int yOrder, int apertureSize) = 0;
+    virtual ImageImPro* filterSobel(ImageImPro* input, int xOrder, int yOrder, int apertureSize) = 0;
     /*
     * The threshold operator classifies each pixel on the input image Pi, comparing Pi < threshold, and in the output applyng the type
     * of threshold selected by the user
@@ -53,7 +53,7 @@ public:
     *TO_ZERO_INV_THRESH: Output_i = (Input_i > Thresh) 0:Input_i
     *TO_ZERO_INV_THRESH: Output_i = (Input_i > Thresh) Input_i:0
     */
-    virtual void applyThreshold(ImageImPro* input, ImageImPro* output, double threshold, double maxValue, ThresholdType typeThresh) = 0;
+    virtual ImageImPro* applyThreshold(ImageImPro* input, double threshold, double maxValue, ThresholdType typeThresh) = 0;
 
 
     virtual ImageImPro* convert2GrayScale(ImageImPro* ptrImage) = 0;

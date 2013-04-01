@@ -78,3 +78,8 @@ void MainWindow::on_btnLoadDefImage_clicked(){
     }
 
 }
+
+void MainWindow::on_btnContour_clicked()
+{
+
+}

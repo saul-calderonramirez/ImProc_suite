@@ -29,6 +29,7 @@ public:
     void applyFilterCanny()throw (ControllerException);
     void applyBinaryThreshold()throw (ControllerException);
     void applyFilterSobel()throw (ControllerException);
+    void findCountour()throw (ControllerException);
     ~Controller();
 };
 

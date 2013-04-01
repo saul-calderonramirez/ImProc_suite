@@ -62,7 +62,7 @@
       <string>Local</string>
      </property>
     </widget>
-    <widget class="QToolButton" name="btnSegWaterSheds">
+    <widget class="QToolButton" name="btnContour">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -72,18 +72,18 @@
       </rect>
      </property>
      <property name="text">
-      <string>Watersheds</string>
+      <string>Contorno</string>
      </property>
     </widget>
     <zorder>btnSegLocal</zorder>
-    <zorder>btnSegWaterSheds</zorder>
     <zorder>btnUmbBin</zorder>
+    <zorder>btnContour</zorder>
    </widget>
    <widget class="QToolButton" name="btnLoadDefImage">
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>410</y>
+      <y>460</y>
       <width>151</width>
       <height>41</height>
      </rect>
@@ -130,6 +130,19 @@
       <string>Filtro de Sobel</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QToolButton" name="btnSegWaterSheds">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>410</y>
+      <width>141</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Watersheds</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
