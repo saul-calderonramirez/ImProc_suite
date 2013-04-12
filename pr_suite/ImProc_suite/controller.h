@@ -3,12 +3,16 @@
 #include "includes.h"
 #include "openimprolib_opencvimpl.h"
 #include "imageimpro_opencvimpl.h"
+#include "openimprolib_opencvoclimpl.h"
+#include "openimprolib_opencvgpuimpl.h"
+#include "unittestsocv.h"
 #define DEF_IMAGE "left02.jpg"
 
 class Controller{
 
 private:   
     OpenImProLib* ptrLib;
+    OpenImProLib* ptrLibGPU;
     ImageImPro* ptrImage;
 
 public:   
@@ -30,6 +34,7 @@ public:
     void applyBinaryThreshold()throw (ControllerException);
     void applyFilterSobel()throw (ControllerException);
     void findCountour()throw (ControllerException);
+    void runBenchmarks()throw (ControllerException);
     ~Controller();
 };
 

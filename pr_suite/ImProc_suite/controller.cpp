@@ -1,8 +1,9 @@
 #include "controller.h"
-
+using namespace std;
 Controller::Controller(){
      this->ptrImage = NULL;
      this->ptrLib = new OpenImProLib_OpenCvImpl();
+    this->ptrLibGPU = new OpenImProLib_OpenCVGPUimpl();
 }
 
 void Controller::loadImage(char* ptrName)throw (ControllerException){
@@ -15,7 +16,7 @@ void Controller::loadImage(char* ptrName)throw (ControllerException){
 
 void Controller::applyFilterCanny()throw (ControllerException){
     if(this->ptrImage != NULL){
-        ImageImPro* ptrImageCanny = this->ptrLib->filterCanny(ptrImage, 10, 500, 3);
+        ImageImPro* ptrImageCanny = this->ptrLibGPU->filterCanny(ptrImage, 10, 500, 3);
         delete this->ptrImage;
         ptrImage = ptrImageCanny;
     }
@@ -24,9 +25,53 @@ void Controller::applyFilterCanny()throw (ControllerException){
     }
  }
 
+void Controller::runBenchmarks()throw (ControllerException){
+    if(this->ptrImage != NULL){
+        int startMilli, endMilli;
+        startMilli = UnitTestsOCV::getMilliCount();
+        ImageImPro* ptrOutput = this->ptrLibGPU->filterCanny(ptrImage, 10, 500, 3);
+        delete ptrOutput;
+        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
+        cout << "GPU canny time ms: " << endMilli << endl;
+        startMilli = UnitTestsOCV::getMilliCount();
+        ptrOutput = this->ptrLib->filterCanny(ptrImage, 10, 500, 3);
+        delete ptrOutput;
+        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
+        cout << "TBB canny time ms: " << endMilli << endl;
+        cout << "TEST 2:" << endl;
+        startMilli = UnitTestsOCV::getMilliCount();
+        ptrOutput = this->ptrLib->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
+        delete ptrOutput;
+        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
+        cout << "TBB threshold time ms: " << endMilli << endl;
+
+        startMilli = UnitTestsOCV::getMilliCount();
+        ptrOutput = this->ptrLibGPU->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
+        delete ptrOutput;
+        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
+        cout << "GPU threshold time ms: " << endMilli << endl;
+
+    }
+    else{
+         throw ControllerException("No image loaded");
+    }
+}
+
  void Controller::findCountour()throw (ControllerException){
      if(this->ptrImage != NULL){
-         ImageImPro* ptrImageGray = this->ptrLib->convert2GrayScale(this->ptrImage);
+         ImageImPro* ptrImageCanny =  this->ptrLib->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
+         ImageImPro* ptrGrayRes = this->ptrImage->getGrayScale();
+         IplImage* ptrGrayCv =  ptrGrayRes->getOpenCvImage();
+         cvZero(ptrGrayCv);
+         CvMemStorage* ptrMemStorage = cvCreateMemStorage(0);
+         CvSeq* ptrContours = 0;
+         IplImage* ptrIm = ptrImageCanny->getOpenCvImage();
+         cvFindContours(ptrIm, ptrMemStorage, &ptrContours, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+         if(ptrContours != NULL){
+             cvDrawContours(ptrGrayCv, ptrContours, cvScalarAll(255), cvScalarAll(255), 100 );
+             cvShowImage("Contours", ptrGrayCv);
+         }
+
      }
      else{
           throw ControllerException("No image loaded");
@@ -47,8 +92,8 @@ void Controller::applyFilterSobel()throw (ControllerException){
 
 void Controller::applyBinaryThreshold()throw (ControllerException){
      if(this->ptrImage != NULL){
-
-         ImageImPro* ptrImageBin = this->ptrLib->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
+         //ImageImPro* ptrImageBin = this->ptrLib->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
+         ImageImPro* ptrImageBin = this->ptrLibGPU->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
          delete this->ptrImage;
          ptrImage = ptrImageBin;
      }

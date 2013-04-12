@@ -17,6 +17,18 @@ ImageImPro_OpenCvImpl::ImageImPro_OpenCvImpl(ImSize size, ImageImProDepth depth,
     this->ptrImage = ptrImage;
  }
 
+ ImageImPro_OpenCvImpl::ImageImPro_OpenCvImpl(Mat* ptrMat){
+     ImSize size;
+     ImageImProDepth depth = depthMat2ImPro(ptrMat->depth());
+     size.height = ptrMat->rows;
+     size.width = ptrMat->cols;
+     int channels = ptrMat->channels();
+     //creates the image and asks for memory
+     createImage(size, depth, channels);
+     //copies
+     memcpy(this->ptrImage->imageData, ptrMat->data, ptrMat->rows * ptrMat->cols);
+ }
+
 ImageImPro::ImageImProDepth ImageImPro_OpenCvImpl::getDepth(){
     int depthCv = IPL_DEPTH_8U;
     ImageImProDepth depthImPro = ImageImPro::BIT_8_U;
@@ -60,6 +72,22 @@ int ImageImPro_OpenCvImpl::depthImPro2Cv(ImageImPro::ImageImProDepth depth){
     return depthCv;
 }
 
+ImageImPro_OpenCvImpl::ImageImProDepth ImageImPro_OpenCvImpl::depthMat2ImPro(int depth){
+    ImageImProDepth depthImPro;
+    switch(depth){
+        case CV_8U:
+            depthImPro = ImageImPro_OpenCvImpl::BIT_8_U;
+        break;
+        case CV_16S:
+            depthImPro = ImageImPro_OpenCvImpl::BIT_16_S;
+        break;
+        case CV_32F:
+            depthImPro = ImageImPro_OpenCvImpl::BIT_32_F;
+        break;
+    }
+    return depthImPro;
+}
+
 void ImageImPro_OpenCvImpl::createImage(ImSize size, ImageImProDepth depth, int channels){
     int depthCv = depthImPro2Cv(depth);
     CvSize cvSize;
@@ -82,6 +110,13 @@ ImSize ImageImPro_OpenCvImpl::getSize(){
 
 IplImage* ImageImPro_OpenCvImpl:: getOpenCvImage(){
     return this->ptrImage;
+}
+
+ImageImPro* ImageImPro_OpenCvImpl::getGrayScale(){
+    IplImage *ptrCvImGray = cvCreateImage(cvGetSize(this->ptrImage),IPL_DEPTH_8U,1);
+    cvCvtColor(this->ptrImage, ptrCvImGray, CV_RGB2GRAY);
+    ImageImPro* ptrImGray = new  ImageImPro_OpenCvImpl(ptrCvImGray);
+    return ptrImGray;
 }
 
 ImageImPro_OpenCvImpl::~ImageImPro_OpenCvImpl(){
@@ -110,5 +145,11 @@ QImage* ImageImPro_OpenCvImpl::getQImage(){
     }
 
     return ptrImg;
+}
+
+Mat* ImageImPro_OpenCvImpl::getMat(){
+    //copies the data
+    Mat* ptrMat = new Mat(this->ptrImage, true);
+    return ptrMat;
 }
 

@@ -1,21 +1,15 @@
-#ifndef OPENIPLIB_OPENCVIMPL_H
-#define OPENIPLIB_OPENCVIMPL_H
+#ifndef OPENIMPROLIB_OPENCVOCLIMPL_H
+#define OPENIMPROLIB_OPENCVOCLIMPL_H
 #include "openimprolib.h"
 #include "includes.h"
-
-using namespace std;
-class OpenImProLib_OpenCvImpl : public OpenImProLib
+class OpenImProLib_OpenCVOCLimpl: public OpenImProLib
 {
-private:
-    int imProThresh2CvThresh(ThresholdType thresholdType);
-
 public:
-    OpenImProLib_OpenCvImpl();
+    OpenImProLib_OpenCVOCLimpl();
     ImageImPro* filterCanny(ImageImPro* input, double limInf, double limSup, int apertureSize);
     ImageImPro* filterSobel(ImageImPro* input, int xOrder, int yOrder, int apertureSize);
     ImageImPro* applyThreshold(ImageImPro* input, double threshold, double maxValue, ThresholdType typeThresh);
-
-    ~OpenImProLib_OpenCvImpl(){}
+    ImageImPro* convert2GrayScale(ImageImPro* ptrImage);
 };
 
-#endif // OPENIPLIB_OPENCVIMPL_H
+#endif // OPENIMPROLIB_OPENCVOCLIMPL_H

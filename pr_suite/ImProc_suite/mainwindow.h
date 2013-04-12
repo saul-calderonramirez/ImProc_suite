@@ -27,6 +27,8 @@ private slots:
 
     void on_btnContour_clicked();
 
+    void on_btnSegWaterSheds_2_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

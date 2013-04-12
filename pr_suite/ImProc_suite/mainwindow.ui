@@ -28,7 +28,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>200</y>
+      <y>160</y>
       <width>191</width>
       <height>171</height>
      </rect>
@@ -66,7 +66,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>130</y>
+       <y>120</y>
        <width>141</width>
        <height>28</height>
       </rect>
@@ -82,14 +82,14 @@
    <widget class="QToolButton" name="btnLoadDefImage">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>30</x>
       <y>460</y>
-      <width>151</width>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Load Default Image</string>
+     <string>Imagen por Defecto</string>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox">
@@ -98,7 +98,7 @@
       <x>30</x>
       <y>20</y>
       <width>191</width>
-      <height>171</height>
+      <height>131</height>
      </rect>
     </property>
     <property name="title">
@@ -130,18 +130,22 @@
       <string>Filtro de Sobel</string>
      </property>
     </widget>
+    <zorder>btnCannyFilter</zorder>
+    <zorder>btnSobelFilter</zorder>
+    <zorder>groupBox_2</zorder>
+    <zorder>groupBox_2</zorder>
    </widget>
-   <widget class="QToolButton" name="btnSegWaterSheds">
+   <widget class="QToolButton" name="btnSegWaterSheds_2">
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>410</y>
+      <y>420</y>
       <width>141</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>Watersheds</string>
+     <string>Benchmarks</string>
     </property>
    </widget>
   </widget>
@@ -151,7 +155,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>33</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">

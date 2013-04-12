@@ -18,7 +18,11 @@ SOURCES += main.cpp\
     openimprolib_opencvimpl.cpp \
     imageimpro_opencvimpl.cpp \
     controller.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    unittestsocv_ocl.cpp \
+    openimprolib_opencvoclimpl.cpp \
+    openimprolib_opencvgpuimpl.cpp
+
 
 HEADERS  += \
     imageimpro.h \
@@ -27,7 +31,10 @@ HEADERS  += \
     imageimpro_opencvimpl.h \
     controller.h \
     mainwindow.h \
-    includes.h
+    includes.h \
+    openimprolib_opencvoclimpl.h \
+    openimprolib_opencvgpuimpl.h \
+    unittestsocv.h
 
 FORMS    += \
     mainwindow.ui

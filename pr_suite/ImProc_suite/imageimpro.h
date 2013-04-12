@@ -1,6 +1,7 @@
 #ifndef IMAGE_IMPRO_H
 #define IMAGE_IMPRO_H
 #include "includes.h"
+using namespace::cv;
 using namespace::std;
 
 
@@ -17,7 +18,9 @@ class ImageImPro{
         ImageImPro();
         virtual void loadImage(char* ptrName)=0;
         virtual void createImage(ImSize size, ImageImProDepth depth, int channels)=0;
+        virtual ImageImPro* getGrayScale() = 0;
         virtual QImage* getQImage() = 0;
+        virtual Mat* getMat() = 0;
         virtual ImSize getSize() = 0;
         virtual IplImage* getOpenCvImage() = 0;
         virtual ~ImageImPro(){}

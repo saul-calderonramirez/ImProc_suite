@@ -56,7 +56,7 @@ public:
     virtual ImageImPro* applyThreshold(ImageImPro* input, double threshold, double maxValue, ThresholdType typeThresh) = 0;
 
 
-    virtual ImageImPro* convert2GrayScale(ImageImPro* ptrImage) = 0;
+
     virtual ~OpenImProLib(){}
 };
 

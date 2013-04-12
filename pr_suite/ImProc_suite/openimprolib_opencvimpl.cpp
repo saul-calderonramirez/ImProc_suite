@@ -55,13 +55,7 @@ ImageImPro* OpenImProLib_OpenCvImpl::applyThreshold(ImageImPro* ptrInput, double
      return ptrOutput;
 }
 
- ImageImPro* OpenImProLib_OpenCvImpl::convert2GrayScale(ImageImPro* ptrImage){
-     IplImage* ptrCvImage = ptrImage->getOpenCvImage();
-     IplImage *ptrCvImGray = cvCreateImage(cvGetSize(ptrCvImage),IPL_DEPTH_8U,1);
-     cvCvtColor(ptrImage, ptrCvImGray, CV_RGB2GRAY);
-     ImageImPro* ptrImGray = new  ImageImPro_OpenCvImpl(ptrCvImGray);
-     return ptrImGray;
- }
+
 
 ImageImPro* OpenImProLib_OpenCvImpl::filterSobel(ImageImPro* ptrInput, int xOrder, int yOrder, int apertureSize){
     ImageImPro* ptrOutput = new ImageImPro_OpenCvImpl(ptrInput->getSize(), ImageImPro::BIT_8_U, 1);
