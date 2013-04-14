@@ -14,6 +14,18 @@ ImageImPro* OpenImProLib_OpenCvImpl::filterCanny(ImageImPro* ptrInput, double li
     return ptrOutput;
 }
 
+ImageImPro* OpenImProLib_OpenCvImpl::filterGauss(ImageImPro* ptrInput, double sigmaX, double sigmaY, int apertureSize){
+    //ImageImPro* ptrOutput = new ImageImPro_OpenCvImpl(ptrInput->getSize(), ImageImPro::BIT_8_U, 1);
+    Size size;
+    size.width = apertureSize;
+    size.height = apertureSize;
+    Mat* ptrMatOutput = new Mat();
+    GaussianBlur(*(ptrInput->getMat()), *ptrMatOutput, size, sigmaX, sigmaY);
+
+    ImageImPro* ptrOutput = new ImageImPro_OpenCvImpl(ptrMatOutput);
+    return ptrOutput;
+}
+
 int OpenImProLib_OpenCvImpl::imProThresh2CvThresh(ThresholdType thresholdType){
     int cvThreshType = -1;
     switch(thresholdType){
@@ -73,10 +85,8 @@ ImageImPro* OpenImProLib_OpenCvImpl::filterSobel(ImageImPro* ptrInput, int xOrde
         cvSobel(ptrCvInput,ptrCvTemp, xOrder, yOrder, apertureSize);
     }
     cvConvertScale(ptrCvTemp, ptrCvOutput, 1, 0);
-    /*
-    cvNamedWindow("sobel");
-    cvShowImage("sobel", ptrCvTemp);
-    */
+
+
     cvReleaseImage(&ptrCvTemp);
     return ptrOutput;
 }

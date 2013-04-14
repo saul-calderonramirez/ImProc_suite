@@ -100,3 +100,15 @@ void MainWindow::on_btnSegWaterSheds_2_clicked(){
         cout << contExc.what() << endl;
     }
 }
+
+void MainWindow::on_btnGaussFilter_clicked(){
+    try{
+        this->ptrController->applyFilterGauss();
+        QImage* qImage = this->ptrController->getImage()->getQImage();
+        showImage(qImage);
+    }
+    catch(Controller::ControllerException contExc){
+        cout << contExc.what() << endl;
+    }
+
+}

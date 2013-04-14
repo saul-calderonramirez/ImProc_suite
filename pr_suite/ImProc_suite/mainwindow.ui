@@ -28,7 +28,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>160</y>
+      <y>210</y>
       <width>191</width>
       <height>171</height>
      </rect>
@@ -98,7 +98,7 @@
       <x>30</x>
       <y>20</y>
       <width>191</width>
-      <height>131</height>
+      <height>161</height>
      </rect>
     </property>
     <property name="title">
@@ -130,10 +130,19 @@
       <string>Filtro de Sobel</string>
      </property>
     </widget>
-    <zorder>btnCannyFilter</zorder>
-    <zorder>btnSobelFilter</zorder>
-    <zorder>groupBox_2</zorder>
-    <zorder>groupBox_2</zorder>
+    <widget class="QToolButton" name="btnGaussFilter">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>130</y>
+       <width>141</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Filtro de Gauss</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QToolButton" name="btnSegWaterSheds_2">
     <property name="geometry">

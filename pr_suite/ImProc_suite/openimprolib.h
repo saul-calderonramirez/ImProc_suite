@@ -55,6 +55,8 @@ public:
     */
     virtual ImageImPro* applyThreshold(ImageImPro* input, double threshold, double maxValue, ThresholdType typeThresh) = 0;
 
+    virtual ImageImPro* filterGauss(ImageImPro* ptrInput, double sigmaX, double sigmaY, int apertureSize) = 0;
+
 
 
     virtual ~OpenImProLib(){}

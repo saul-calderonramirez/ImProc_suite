@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Apr 11 17:31:57 2013
+** Created: Sun Apr 14 13:28:31 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -41,6 +41,7 @@ public:
     QGroupBox *groupBox;
     QToolButton *btnCannyFilter;
     QToolButton *btnSobelFilter;
+    QToolButton *btnGaussFilter;
     QToolButton *btnSegWaterSheds_2;
     QMenuBar *menubar;
     QMenu *menuArchivo;
@@ -62,7 +63,7 @@ public:
         imgDisplay->setGeometry(QRect(250, 20, 531, 501));
         groupBox_2 = new QGroupBox(centralwidget);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
-        groupBox_2->setGeometry(QRect(30, 160, 191, 171));
+        groupBox_2->setGeometry(QRect(30, 210, 191, 171));
         btnUmbBin = new QToolButton(groupBox_2);
         btnUmbBin->setObjectName(QString::fromUtf8("btnUmbBin"));
         btnUmbBin->setGeometry(QRect(20, 30, 141, 31));
@@ -80,17 +81,16 @@ public:
         btnLoadDefImage->setGeometry(QRect(30, 460, 171, 41));
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setGeometry(QRect(30, 20, 191, 131));
+        groupBox->setGeometry(QRect(30, 20, 191, 161));
         btnCannyFilter = new QToolButton(groupBox);
         btnCannyFilter->setObjectName(QString::fromUtf8("btnCannyFilter"));
         btnCannyFilter->setGeometry(QRect(20, 30, 141, 28));
         btnSobelFilter = new QToolButton(groupBox);
         btnSobelFilter->setObjectName(QString::fromUtf8("btnSobelFilter"));
         btnSobelFilter->setGeometry(QRect(20, 80, 141, 28));
-        btnCannyFilter->raise();
-        btnSobelFilter->raise();
-        groupBox_2->raise();
-        groupBox_2->raise();
+        btnGaussFilter = new QToolButton(groupBox);
+        btnGaussFilter->setObjectName(QString::fromUtf8("btnGaussFilter"));
+        btnGaussFilter->setGeometry(QRect(20, 130, 141, 28));
         btnSegWaterSheds_2 = new QToolButton(centralwidget);
         btnSegWaterSheds_2->setObjectName(QString::fromUtf8("btnSegWaterSheds_2"));
         btnSegWaterSheds_2->setGeometry(QRect(50, 420, 141, 28));
@@ -126,6 +126,7 @@ public:
         groupBox->setTitle(QApplication::translate("MainWindow", "Filtros", 0, QApplication::UnicodeUTF8));
         btnCannyFilter->setText(QApplication::translate("MainWindow", "Filtro de Canny", 0, QApplication::UnicodeUTF8));
         btnSobelFilter->setText(QApplication::translate("MainWindow", "Filtro de Sobel", 0, QApplication::UnicodeUTF8));
+        btnGaussFilter->setText(QApplication::translate("MainWindow", "Filtro de Gauss", 0, QApplication::UnicodeUTF8));
         btnSegWaterSheds_2->setText(QApplication::translate("MainWindow", "Benchmarks", 0, QApplication::UnicodeUTF8));
         menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", 0, QApplication::UnicodeUTF8));
     } // retranslateUi

@@ -27,6 +27,8 @@ void Controller::applyFilterCanny()throw (ControllerException){
 
 void Controller::runBenchmarks()throw (ControllerException){
     if(this->ptrImage != NULL){
+        cout << "NEW TEST:" << endl << endl;
+
         int startMilli, endMilli;
         startMilli = UnitTestsOCV::getMilliCount();
         ImageImPro* ptrOutput = this->ptrLibGPU->filterCanny(ptrImage, 10, 500, 3);
@@ -38,7 +40,7 @@ void Controller::runBenchmarks()throw (ControllerException){
         delete ptrOutput;
         endMilli = UnitTestsOCV::getMilliSpan(startMilli);
         cout << "TBB canny time ms: " << endMilli << endl;
-        cout << "TEST 2:" << endl;
+
         startMilli = UnitTestsOCV::getMilliCount();
         ptrOutput = this->ptrLib->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
         delete ptrOutput;
@@ -50,6 +52,39 @@ void Controller::runBenchmarks()throw (ControllerException){
         delete ptrOutput;
         endMilli = UnitTestsOCV::getMilliSpan(startMilli);
         cout << "GPU threshold time ms: " << endMilli << endl;
+
+
+        startMilli = UnitTestsOCV::getMilliCount();
+        ptrOutput = this->ptrLibGPU->filterSobel(ptrImage, 1, 1, 3);
+        delete ptrOutput;
+        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
+        cout << "GPU sobel time ms: " << endMilli << endl;
+
+        startMilli = UnitTestsOCV::getMilliCount();
+        ptrOutput = this->ptrLib->filterSobel(ptrImage, 1, 1, 3);
+        delete ptrOutput;
+        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
+        cout << "TBB sobel time ms: " << endMilli << endl;
+
+
+        startMilli = UnitTestsOCV::getMilliCount();
+        ptrOutput = this->ptrLibGPU->filterGauss(this->ptrImage, 0, 0, 11);
+        delete ptrOutput;
+        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
+        cout << "GPU gauss time ms: " << endMilli << endl;
+
+
+        startMilli = UnitTestsOCV::getMilliCount();
+        ptrOutput = this->ptrLib->filterGauss(this->ptrImage, 0, 0, 11);
+        delete ptrOutput;
+        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
+        cout << "TBB gauss time ms: " << endMilli << endl;
+
+
+
+
+
+
 
     }
     else{
@@ -80,8 +115,7 @@ void Controller::runBenchmarks()throw (ControllerException){
 
 void Controller::applyFilterSobel()throw (ControllerException){
      if(this->ptrImage != NULL){         
-
-         ImageImPro* ptrImageSobel = this->ptrLib->filterSobel(ptrImage, 1, 1, 3);
+         ImageImPro* ptrImageSobel = this->ptrLibGPU->filterSobel(ptrImage, 1, 1, 3);
          delete this->ptrImage;
          ptrImage = ptrImageSobel;
      }
@@ -89,6 +123,18 @@ void Controller::applyFilterSobel()throw (ControllerException){
          throw ControllerException("No image loaded");
      }
  }
+
+void Controller::applyFilterGauss()throw (ControllerException){
+    if(this->ptrImage != NULL){
+        ImageImPro* ptrImageGauss = this->ptrLibGPU->filterGauss(this->ptrImage, 0, 0, 11);
+        delete this->ptrImage;
+        ptrImage = ptrImageGauss;
+    }
+    else{
+        throw ControllerException("No image loaded");
+    }
+
+}
 
 void Controller::applyBinaryThreshold()throw (ControllerException){
      if(this->ptrImage != NULL){

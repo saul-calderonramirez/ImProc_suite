@@ -29,6 +29,8 @@ private slots:
 
     void on_btnSegWaterSheds_2_clicked();
 
+    void on_btnGaussFilter_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
