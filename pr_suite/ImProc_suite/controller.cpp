@@ -3,7 +3,19 @@ using namespace std;
 Controller::Controller(){
      this->ptrImage = NULL;
      this->ptrLib = new OpenImProLib_OpenCvImpl();
-    this->ptrLibGPU = new OpenImProLib_OpenCVGPUimpl();
+     this->ptrLibGPU = new OpenImProLib_OpenCVGPUimpl();
+}
+
+void showImageOnWindow(IplImage* ptrCvImage, char* ptrWinName){
+    //Displaying image on opencv window
+     //First, the windows name will be set. In this case the window's name is
+     //the same as the image name.
+     cvNamedWindow(ptrWinName, 1);
+     //Second, the image will be displayed
+     cvShowImage(ptrWinName, ptrCvImage);
+     //Finally, the window will be destroyed right after you press any key
+     cvWaitKey();
+     cvDestroyWindow(ptrWinName);
 }
 
 void Controller::loadImage(char* ptrName)throw (ControllerException){
@@ -16,7 +28,7 @@ void Controller::loadImage(char* ptrName)throw (ControllerException){
 
 void Controller::applyFilterCanny()throw (ControllerException){
     if(this->ptrImage != NULL){
-        ImageImPro* ptrImageCanny = this->ptrLibGPU->filterCanny(ptrImage, 10, 500, 3);
+        ImageImPro* ptrImageCanny = this->ptrLibGPU->filterCanny(this->ptrImage, 10, 500, 3);
         delete this->ptrImage;
         ptrImage = ptrImageCanny;
     }
@@ -25,67 +37,26 @@ void Controller::applyFilterCanny()throw (ControllerException){
     }
  }
 
+void Controller::detectPeople()throw (ControllerException){
+    if(this->ptrImage != NULL){
+        ImageImPro* ptrOutput = hogGPU.detectPeople(this->ptrImage);
+        delete this->ptrImage;
+        ptrImage = ptrOutput;
+    }
+    else{
+         throw ControllerException("No image loaded");
+    }
+}
+
+void Controller::processVideo(){
+    char* ptrSrc = "pruebas/REAL1.mp4";
+    char* ptrDst = "pruebas/salidaHog.avi";
+    hogGPU.processVideo(ptrSrc, ptrDst);
+}
+
 void Controller::runBenchmarks()throw (ControllerException){
     if(this->ptrImage != NULL){
-        cout << "NEW TEST:" << endl << endl;
-
-        int startMilli, endMilli;
-        startMilli = UnitTestsOCV::getMilliCount();
-        ImageImPro* ptrOutput = this->ptrLibGPU->filterCanny(ptrImage, 10, 500, 3);
-        delete ptrOutput;
-        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
-        cout << "GPU canny time ms: " << endMilli << endl;
-        startMilli = UnitTestsOCV::getMilliCount();
-        ptrOutput = this->ptrLib->filterCanny(ptrImage, 10, 500, 3);
-        delete ptrOutput;
-        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
-        cout << "TBB canny time ms: " << endMilli << endl;
-
-        startMilli = UnitTestsOCV::getMilliCount();
-        ptrOutput = this->ptrLib->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
-        delete ptrOutput;
-        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
-        cout << "TBB threshold time ms: " << endMilli << endl;
-
-        startMilli = UnitTestsOCV::getMilliCount();
-        ptrOutput = this->ptrLibGPU->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
-        delete ptrOutput;
-        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
-        cout << "GPU threshold time ms: " << endMilli << endl;
-
-
-        startMilli = UnitTestsOCV::getMilliCount();
-        ptrOutput = this->ptrLibGPU->filterSobel(ptrImage, 1, 1, 3);
-        delete ptrOutput;
-        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
-        cout << "GPU sobel time ms: " << endMilli << endl;
-
-        startMilli = UnitTestsOCV::getMilliCount();
-        ptrOutput = this->ptrLib->filterSobel(ptrImage, 1, 1, 3);
-        delete ptrOutput;
-        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
-        cout << "TBB sobel time ms: " << endMilli << endl;
-
-
-        startMilli = UnitTestsOCV::getMilliCount();
-        ptrOutput = this->ptrLibGPU->filterGauss(this->ptrImage, 0, 0, 11);
-        delete ptrOutput;
-        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
-        cout << "GPU gauss time ms: " << endMilli << endl;
-
-
-        startMilli = UnitTestsOCV::getMilliCount();
-        ptrOutput = this->ptrLib->filterGauss(this->ptrImage, 0, 0, 11);
-        delete ptrOutput;
-        endMilli = UnitTestsOCV::getMilliSpan(startMilli);
-        cout << "TBB gauss time ms: " << endMilli << endl;
-
-
-
-
-
-
-
+        UnitTests::testBenchmarks1(this->ptrImage);
     }
     else{
          throw ControllerException("No image loaded");
@@ -94,18 +65,7 @@ void Controller::runBenchmarks()throw (ControllerException){
 
  void Controller::findCountour()throw (ControllerException){
      if(this->ptrImage != NULL){
-         ImageImPro* ptrImageCanny =  this->ptrLib->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
-         ImageImPro* ptrGrayRes = this->ptrImage->getGrayScale();
-         IplImage* ptrGrayCv =  ptrGrayRes->getOpenCvImage();
-         cvZero(ptrGrayCv);
-         CvMemStorage* ptrMemStorage = cvCreateMemStorage(0);
-         CvSeq* ptrContours = 0;
-         IplImage* ptrIm = ptrImageCanny->getOpenCvImage();
-         cvFindContours(ptrIm, ptrMemStorage, &ptrContours, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
-         if(ptrContours != NULL){
-             cvDrawContours(ptrGrayCv, ptrContours, cvScalarAll(255), cvScalarAll(255), 100 );
-             cvShowImage("Contours", ptrGrayCv);
-         }
+        UnitTests::testContours(this->ptrImage);
 
      }
      else{
@@ -137,8 +97,7 @@ void Controller::applyFilterGauss()throw (ControllerException){
 }
 
 void Controller::applyBinaryThreshold()throw (ControllerException){
-     if(this->ptrImage != NULL){
-         //ImageImPro* ptrImageBin = this->ptrLib->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
+     if(this->ptrImage != NULL){        
          ImageImPro* ptrImageBin = this->ptrLibGPU->applyThreshold(this->ptrImage, 100, 255, OpenImProLib::BINARY_THRESH);
          delete this->ptrImage;
          ptrImage = ptrImageBin;
@@ -158,9 +117,6 @@ Controller::~Controller(){
         delete this->ptrImage;
     if(this->ptrLib != NULL)
         delete this->ptrLib;
+    if(this->ptrLibGPU != NULL)
+        delete this->ptrLib;
 }
-
-
-
-
-

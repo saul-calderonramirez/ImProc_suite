@@ -5,8 +5,9 @@
 #include "imageimpro_opencvimpl.h"
 #include "openimprolib_opencvoclimpl.h"
 #include "openimprolib_opencvgpuimpl.h"
-#include "unittestsocv.h"
-#define DEF_IMAGE "left02.jpg"
+#include "unittests.h"
+#include "hogdetectorgpu.h"
+#define DEF_IMAGE "peqFut.bmp"
 
 class Controller{
 
@@ -14,6 +15,7 @@ private:
     OpenImProLib* ptrLib;
     OpenImProLib* ptrLibGPU;
     ImageImPro* ptrImage;
+    HOGDetectorGPU hogGPU;
 
 public:   
     class ControllerException: public exception{
@@ -34,6 +36,8 @@ public:
     void applyBinaryThreshold()throw (ControllerException);
     void applyFilterSobel()throw (ControllerException);
     void applyFilterGauss()throw (ControllerException);
+    void detectPeople()throw (ControllerException);
+    void processVideo();
     void findCountour()throw (ControllerException);
     void runBenchmarks()throw (ControllerException);
     ~Controller();

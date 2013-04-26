@@ -112,3 +112,20 @@ void MainWindow::on_btnGaussFilter_clicked(){
     }
 
 }
+
+void MainWindow::on_btnContour_2_clicked()
+{
+    try{      
+        this->ptrController->detectPeople();
+        QImage* qImage = this->ptrController->getImage()->getQImage();
+        showImage(qImage);
+    }
+    catch(Controller::ControllerException contExc){
+        cout << contExc.what() << endl;
+    }
+}
+
+void MainWindow::on_btnContour_3_clicked()
+{
+    this->ptrController->processVideo();
+}

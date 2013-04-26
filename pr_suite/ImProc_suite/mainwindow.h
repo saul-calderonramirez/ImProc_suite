@@ -31,6 +31,10 @@ private slots:
 
     void on_btnGaussFilter_clicked();
 
+    void on_btnContour_2_clicked();
+
+    void on_btnContour_3_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

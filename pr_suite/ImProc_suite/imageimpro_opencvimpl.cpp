@@ -13,9 +13,35 @@ ImageImPro_OpenCvImpl::ImageImPro_OpenCvImpl(ImSize size, ImageImProDepth depth,
 }
 
 
- ImageImPro_OpenCvImpl::ImageImPro_OpenCvImpl(IplImage* ptrImage){
-    this->ptrImage = ptrImage;
+ ImageImPro_OpenCvImpl::ImageImPro_OpenCvImpl(IplImage* ptrInput){
+     ImSize size;
+     ImageImProDepth depth = depthCv2ImPro(ptrInput->depth);
+     size.height = ptrInput->height;
+     size.width = ptrInput->width;
+     int channels = ptrInput->nChannels;
+     //creates the image and asks for memory
+     createImage(size, depth, channels);
+     //copies the memory
+     memcpy(this->ptrImage->imageData, ptrInput->imageData, size.height * ptrInput->widthStep);
  }
+
+  ImageImPro_OpenCvImpl::ImageImPro_OpenCvImpl(GpuMat* ptrGpuMat){
+    //Buffer Matrix necessary
+    Mat* ptrMat = new Mat(*ptrGpuMat);
+    ImSize size;
+    ImageImProDepth depth = depthMat2ImPro(ptrMat->depth());
+    size.height = ptrMat->rows;
+    size.width = ptrMat->cols;
+    int channels = ptrMat->channels();
+    //creates the image and asks for memory
+    createImage(size, depth, channels);
+    //copies the memory
+    IplImage iplTemp = *ptrMat;
+    memcpy(this->ptrImage->imageData, iplTemp.imageData, iplTemp.widthStep * iplTemp.height);
+    delete ptrMat;
+  }
+
+
 
  ImageImPro_OpenCvImpl::ImageImPro_OpenCvImpl(Mat* ptrMat){
      ImSize size;
@@ -25,9 +51,13 @@ ImageImPro_OpenCvImpl::ImageImPro_OpenCvImpl(ImSize size, ImageImProDepth depth,
      int channels = ptrMat->channels();
      //creates the image and asks for memory
      createImage(size, depth, channels);
-     //copies
-     memcpy(this->ptrImage->imageData, ptrMat->data, ptrMat->rows * ptrMat->cols);
+     //copies the memory
+     IplImage iplTemp = *ptrMat;
+     memcpy(this->ptrImage->imageData, iplTemp.imageData, iplTemp.widthStep * iplTemp.height);
+
  }
+
+
 
 ImageImPro::ImageImProDepth ImageImPro_OpenCvImpl::getDepth(){
     int depthCv = IPL_DEPTH_8U;
@@ -72,6 +102,22 @@ int ImageImPro_OpenCvImpl::depthImPro2Cv(ImageImPro::ImageImProDepth depth){
     return depthCv;
 }
 
+ImageImPro_OpenCvImpl::ImageImProDepth ImageImPro_OpenCvImpl::depthCv2ImPro(int depth){
+    ImageImProDepth depthImPro;
+    switch(depth){
+        case IPL_DEPTH_8U:
+            depthImPro = ImageImPro_OpenCvImpl::BIT_8_U;
+        break;
+        case IPL_DEPTH_16S:
+            depthImPro = ImageImPro_OpenCvImpl::BIT_16_S;
+        break;
+        case IPL_DEPTH_32F:
+            depthImPro = ImageImPro_OpenCvImpl::BIT_32_F;
+        break;
+    }
+    return depthImPro;
+}
+
 ImageImPro_OpenCvImpl::ImageImProDepth ImageImPro_OpenCvImpl::depthMat2ImPro(int depth){
     ImageImProDepth depthImPro;
     switch(depth){
@@ -109,8 +155,21 @@ ImSize ImageImPro_OpenCvImpl::getSize(){
 }
 
 IplImage* ImageImPro_OpenCvImpl:: getOpenCvImage(){
-    return this->ptrImage;
+    int depthCv = depthImPro2Cv(this->getDepth());
+    CvSize cvSize;
+    cvSize.height = this->getSize().height;
+    cvSize.width = this->getSize().width;
+    IplImage* ptrIplImage = cvCreateImage(cvSize, depthCv, this->getChannels());
+    memcpy(ptrIplImage->imageData, this->ptrImage->imageData, this->ptrImage->widthStep * cvSize.height);
+    return ptrIplImage;
 }
+
+ GpuMat* ImageImPro_OpenCvImpl::getGPUMat(){
+    Mat* ptrMat = this->getMat();
+    GpuMat* ptrGpuMat = new GpuMat();
+    ptrGpuMat->upload(*ptrMat);
+    return ptrGpuMat;
+ }
 
 ImageImPro* ImageImPro_OpenCvImpl::getGrayScale(){
     IplImage *ptrCvImGray = cvCreateImage(cvGetSize(this->ptrImage),IPL_DEPTH_8U,1);
@@ -140,7 +199,7 @@ QImage* ImageImPro_OpenCvImpl::getQImage(){
     if(this->ptrImage->nChannels == 1 && this->ptrImage->depth == IPL_DEPTH_8U){      
         ptrImg = new QImage(qImageBuffer, width, height, QImage::Format_Indexed8);
     }
-    if(this->ptrImage->nChannels == 1 && this->ptrImage->depth == IPL_DEPTH_16S){
+    if(this->ptrImage->nChannels == 1 && this->ptrImage->depth == (int)IPL_DEPTH_16S){
         ptrImg = new QImage(qImageBuffer, width, height, QImage::Format_Indexed8);
     }
 
@@ -149,7 +208,7 @@ QImage* ImageImPro_OpenCvImpl::getQImage(){
 
 Mat* ImageImPro_OpenCvImpl::getMat(){
     //copies the data
-    Mat* ptrMat = new Mat(this->ptrImage, true);
+    Mat* ptrMat = new Mat(this->ptrImage, true);    
     return ptrMat;
 }
 

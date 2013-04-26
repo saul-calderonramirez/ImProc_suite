@@ -19,9 +19,10 @@ SOURCES += main.cpp\
     imageimpro_opencvimpl.cpp \
     controller.cpp \
     mainwindow.cpp \
-    unittestsocv_ocl.cpp \
     openimprolib_opencvoclimpl.cpp \
-    openimprolib_opencvgpuimpl.cpp
+    openimprolib_opencvgpuimpl.cpp \
+    unittests.cpp \
+    hogdetectorgpu.cpp
 
 
 HEADERS  += \
@@ -34,7 +35,8 @@ HEADERS  += \
     includes.h \
     openimprolib_opencvoclimpl.h \
     openimprolib_opencvgpuimpl.h \
-    unittestsocv.h
+    unittests.h \
+    hogdetectorgpu.h
 
 FORMS    += \
     mainwindow.ui

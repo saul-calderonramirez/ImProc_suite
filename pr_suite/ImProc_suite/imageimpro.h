@@ -3,7 +3,7 @@
 #include "includes.h"
 using namespace::cv;
 using namespace::std;
-
+using namespace gpu;
 
 
 typedef struct ImSize{
@@ -21,6 +21,7 @@ class ImageImPro{
         virtual ImageImPro* getGrayScale() = 0;
         virtual QImage* getQImage() = 0;
         virtual Mat* getMat() = 0;
+        virtual GpuMat* getGPUMat() = 0;
         virtual ImSize getSize() = 0;
         virtual IplImage* getOpenCvImage() = 0;
         virtual ~ImageImPro(){}

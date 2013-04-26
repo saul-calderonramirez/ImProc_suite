@@ -27,7 +27,7 @@ ImageImPro* OpenImProLib_OpenCVOCLimpl::filterCanny(ImageImPro* input, double li
     cout << "Hizo canny" << endl;
     Mat* ptrOutputMat = new Mat(oclMatOutput);
     ImageImPro* ptrImproOutput = new ImageImPro_OpenCvImpl(ptrOutputMat);
-   /* delete ptrImProGray;
+    delete ptrImProGray;
     delete ptrMatInput;*/
     return NULL;
 }

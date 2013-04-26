@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun Apr 14 13:28:31 2013
+** Created: Fri Apr 26 13:52:11 2013
 **      by: Qt User Interface Compiler version 4.8.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -37,12 +37,15 @@ public:
     QToolButton *btnUmbBin;
     QToolButton *btnSegLocal;
     QToolButton *btnContour;
-    QToolButton *btnLoadDefImage;
     QGroupBox *groupBox;
     QToolButton *btnCannyFilter;
     QToolButton *btnSobelFilter;
     QToolButton *btnGaussFilter;
+    QGroupBox *groupBox_3;
+    QToolButton *btnLoadDefImage;
     QToolButton *btnSegWaterSheds_2;
+    QToolButton *btnContour_2;
+    QToolButton *btnContour_3;
     QMenuBar *menubar;
     QMenu *menuArchivo;
     QStatusBar *statusbar;
@@ -51,7 +54,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(800, 600);
+        MainWindow->resize(1028, 747);
         actionAbrir_Imagen = new QAction(MainWindow);
         actionAbrir_Imagen->setObjectName(QString::fromUtf8("actionAbrir_Imagen"));
         actionOtro_Abrir = new QAction(MainWindow);
@@ -60,7 +63,7 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         imgDisplay = new QGraphicsView(centralwidget);
         imgDisplay->setObjectName(QString::fromUtf8("imgDisplay"));
-        imgDisplay->setGeometry(QRect(250, 20, 531, 501));
+        imgDisplay->setGeometry(QRect(250, 20, 751, 631));
         groupBox_2 = new QGroupBox(centralwidget);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
         groupBox_2->setGeometry(QRect(30, 210, 191, 171));
@@ -76,9 +79,6 @@ public:
         btnSegLocal->raise();
         btnUmbBin->raise();
         btnContour->raise();
-        btnLoadDefImage = new QToolButton(centralwidget);
-        btnLoadDefImage->setObjectName(QString::fromUtf8("btnLoadDefImage"));
-        btnLoadDefImage->setGeometry(QRect(30, 460, 171, 41));
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
         groupBox->setGeometry(QRect(30, 20, 191, 161));
@@ -91,13 +91,25 @@ public:
         btnGaussFilter = new QToolButton(groupBox);
         btnGaussFilter->setObjectName(QString::fromUtf8("btnGaussFilter"));
         btnGaussFilter->setGeometry(QRect(20, 130, 141, 28));
-        btnSegWaterSheds_2 = new QToolButton(centralwidget);
+        groupBox_3 = new QGroupBox(centralwidget);
+        groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
+        groupBox_3->setGeometry(QRect(30, 380, 191, 241));
+        btnLoadDefImage = new QToolButton(groupBox_3);
+        btnLoadDefImage->setObjectName(QString::fromUtf8("btnLoadDefImage"));
+        btnLoadDefImage->setGeometry(QRect(10, 40, 171, 41));
+        btnSegWaterSheds_2 = new QToolButton(groupBox_3);
         btnSegWaterSheds_2->setObjectName(QString::fromUtf8("btnSegWaterSheds_2"));
-        btnSegWaterSheds_2->setGeometry(QRect(50, 420, 141, 28));
+        btnSegWaterSheds_2->setGeometry(QRect(30, 90, 141, 28));
+        btnContour_2 = new QToolButton(groupBox_3);
+        btnContour_2->setObjectName(QString::fromUtf8("btnContour_2"));
+        btnContour_2->setGeometry(QRect(30, 130, 141, 28));
+        btnContour_3 = new QToolButton(groupBox_3);
+        btnContour_3->setObjectName(QString::fromUtf8("btnContour_3"));
+        btnContour_3->setGeometry(QRect(30, 170, 141, 28));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 33));
+        menubar->setGeometry(QRect(0, 0, 1028, 33));
         menuArchivo = new QMenu(menubar);
         menuArchivo->setObjectName(QString::fromUtf8("menuArchivo"));
         MainWindow->setMenuBar(menubar);
@@ -122,12 +134,15 @@ public:
         btnUmbBin->setText(QApplication::translate("MainWindow", "Binaria", 0, QApplication::UnicodeUTF8));
         btnSegLocal->setText(QApplication::translate("MainWindow", "Local", 0, QApplication::UnicodeUTF8));
         btnContour->setText(QApplication::translate("MainWindow", "Contorno", 0, QApplication::UnicodeUTF8));
-        btnLoadDefImage->setText(QApplication::translate("MainWindow", "Imagen por Defecto", 0, QApplication::UnicodeUTF8));
         groupBox->setTitle(QApplication::translate("MainWindow", "Filtros", 0, QApplication::UnicodeUTF8));
         btnCannyFilter->setText(QApplication::translate("MainWindow", "Filtro de Canny", 0, QApplication::UnicodeUTF8));
         btnSobelFilter->setText(QApplication::translate("MainWindow", "Filtro de Sobel", 0, QApplication::UnicodeUTF8));
         btnGaussFilter->setText(QApplication::translate("MainWindow", "Filtro de Gauss", 0, QApplication::UnicodeUTF8));
+        groupBox_3->setTitle(QApplication::translate("MainWindow", "Otros", 0, QApplication::UnicodeUTF8));
+        btnLoadDefImage->setText(QApplication::translate("MainWindow", "Imagen por Defecto", 0, QApplication::UnicodeUTF8));
         btnSegWaterSheds_2->setText(QApplication::translate("MainWindow", "Benchmarks", 0, QApplication::UnicodeUTF8));
+        btnContour_2->setText(QApplication::translate("MainWindow", "Detectar Gente", 0, QApplication::UnicodeUTF8));
+        btnContour_3->setText(QApplication::translate("MainWindow", "Procesar Video", 0, QApplication::UnicodeUTF8));
         menuArchivo->setTitle(QApplication::translate("MainWindow", "Archivo", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
